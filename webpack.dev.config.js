@@ -39,7 +39,7 @@ module.exports = {
     contentBase: path.join(__dirname, 'build'),
     writeToDisk: true,
     watchOptions: {
-      aggregateTimeout: 300,
+      aggregateTimeout: 200,
       poll: 1000,
     },
   },
