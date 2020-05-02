@@ -1,5 +1,5 @@
 import {LocalStorage} from './LocalStorage.js';
-import '../scss/app.scss';
+import '../scss/main.scss';
 
 class App {
 	start () {
