@@ -32,7 +32,7 @@ module.exports = {
     }),
  ],
  devServer: {
-    hot: true,
+    hot: false,
     port: 5000,
     host: 'localhost',
     overlay: true,

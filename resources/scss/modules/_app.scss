@@ -1,0 +1,61 @@
+.wrap {
+    display: flex;
+    justify-content: center;
+
+    #root-app {
+        display: flex;
+        margin-top: 90px;
+
+        .left {
+            margin-right: 50px;
+
+            .btn-add {
+                background-color: $color-secondary;
+                border: 1px solid $color-primary;
+                font: 400 1rem $font-primary; 
+                padding: 4px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+                visibility: hidden;
+            }
+
+            .btn-add.active, .btn-add.not-active{
+               visibility: visible;
+            }
+        }
+
+        .right {
+            display: flex;
+
+            .content-view {
+                height: 199px;
+                width: 274px;
+                padding: 8px;
+                text-align: center;
+                visibility: hidden;
+            }
+
+            .content-view.empty {
+                font: 400 0.875rem $font-primary;
+                color: #C0C0C0;
+                border: 1px solid $color-primary;
+                visibility: visible;
+            }
+
+            .content-view.drop {
+                font: 400 0.875rem $font-primary;
+                color: #C0C0C0;
+                border: 1px dashed $color-primary;
+                visibility: visible;
+            }
+
+            .content-view.filled {
+                font: 400 0.875rem $font-primary;
+                color: $color-primary;
+                border: 1px solid $color-primary;
+                text-align: left;
+                visibility: visible;
+            }
+        }
+    }
+}
