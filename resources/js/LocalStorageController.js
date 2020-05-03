@@ -8,7 +8,7 @@ class LocalStorageController {
 		}	
 	}
 
-	check () {
+	isExist () {
 		if (localStorage[this.storageName] !== undefined) {
 			return true;
 		} else {
@@ -17,42 +17,73 @@ class LocalStorageController {
 	}
 
 	create () {
-		localStorage[this.storageName] = '[]';
+		if (this.isExist()) {
+			throw new Error(`${this.storageName} already exists, first delete`)
+		} else {
+			localStorage[this.storageName] = '[]';
+		}
+		
 	}
 
 	remove () {
-		localStorage.removeItem(this.storageName);
+		if (!this.isExist()) {
+			throw new Error(`${this.storageName} it was deleted before the call.`)
+		} else {
+			localStorage.removeItem(this.storageName);
+		}
+	}
+
+	getData () {
+		if (!this.isExist()) {
+			throw new Error(`Unable to get data "${this.storageName}" storage has been deleted or not yet created.`);
+		} else {
+			const stringData = localStorage[this.storageName];
+			const result = JSON.parse(stringData);
+			
+			return result;
+		}
 	}
 
 	getItem (id) {
-		const stringData = localStorage[this.storageName];
-		const result = JSON.parse(stringData);
-
-		for (const item of result) {
-			if (item.id === id) {
-				return item;
+		if (!this.isExist()) {
+			throw new Error(`Unable to get data "${this.storageName}" storage has been deleted or not yet created.`);
+		} else {
+			const stringData = localStorage[this.storageName];
+			const result = JSON.parse(stringData);
+	
+			for (const item of result) {
+				if (item.id === id) {
+					return item;
+				}
 			}
+	
+			return 'not-found';
 		}
-
-		return 'not-found';
 	}
 
 	addItem (data) {
-		if (typeof data === 'object' &&
-			typeof data.id === 'number' &&
-			typeof data.name === 'string' &&
-			typeof data.content === 'string') {
-
-			const item = {
-				id: data.id,
-				name: data.name,
-				content: data.content
-			}
-
-			const localArray = JSON.parse(localStorage[this.storageName]);
-			localArray.push(item);
+		if (!this.isExist()) {
+			throw new Error(`Unable to get data "${this.storageName}" storage has been deleted or not yet created.`);
 		} else {
-			throw new Error('Error adding item to local storage, invalid input')
+			if (typeof data === 'object' &&
+				typeof data.id === 'number' &&
+				typeof data.name === 'string' &&
+				typeof data.content === 'string') {
+
+				const item = {
+					id: data.id,
+					name: data.name,
+					content: data.content
+				}
+
+				const localStorageArray = JSON.parse(localStorage[this.storageName]);
+				localStorageArray.push(item);
+				
+				const localStorageString = JSON.stringify(localStorageArray);
+				localStorage[this.storageName] = localStorageString;
+			} else {
+				throw new Error('Error adding item to local storage, invalid input')
+			}
 		}
 	}
  }

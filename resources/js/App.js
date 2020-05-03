@@ -3,9 +3,7 @@ import {LocalStorageController} from './LocalStorageController.js';
 import '../scss/main.scss';
 
 window.addEventListener('load', () => {
-	
 	class App {
-
 		localStorageName = 'cerApp'
 		stateController = new StateController();
 		localStorageController = new LocalStorageController(this.localStorageName);
@@ -32,12 +30,18 @@ window.addEventListener('load', () => {
 			this.initDefaultState();
 			this.initApp();
 
-			console.table({
-				buttonAddState: this.stateController.getState(this.buttonAdd),
-				cerItemState: this.stateController.getState(this.cerListItems[0]),
-				cerItemsState: this.stateController.getStateForAll(this.cerListItems),
-				cerListState: this.stateController.getState(this.cerList),
-			});
+			if (!this.localStorageController.isExist()) {
+				this.localStorageController.create();
+			} else {
+				this.localStorageController.addItem({
+					id: 1212,
+					name: "SADSA",
+					content: '1212'
+				});
+				
+				var s = this.localStorageController.getData();
+				console.log(s)
+			}
 		}
 
 		initDefaultState () {
