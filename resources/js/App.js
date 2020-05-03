@@ -68,7 +68,7 @@ window.addEventListener('load', () => {
 
 		contentViewDropHandler (event) {
 			event.preventDefault()
-			console.log(event)
+			const file = event.dataTransfer.files;
 		}
 	
 		contentViewDragoverHandler (event) {
