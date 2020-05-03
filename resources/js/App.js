@@ -1,12 +1,23 @@
-import {LocalStorage} from './LocalStorage.js';
+import {StateController} from './StateController.js';
 import '../scss/main.scss';
 
-class App {
-	start () {
-		const local = new LocalStorage();
-		console.log(local);
-	}
-}
+window.addEventListener('load', () => {
+	class App {
+		stateController = new StateController();
 
-const app = new App();
-app.start();
+		start () {
+			console.log(this.stateController.getStateContentView(),
+			this.stateController.getStateButtonAdd())
+			
+		}
+
+		initState() {
+			this.stateController.setStateButtonAdd('active');
+			this.stateController.setStateContentView('empty');
+		}
+	}
+
+	const app = new App();
+	app.initState();
+	app.start();
+});
