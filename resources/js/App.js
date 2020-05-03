@@ -3,10 +3,13 @@ import {LocalStorageController} from './LocalStorageController.js';
 import '../scss/main.scss';
 
 window.addEventListener('load', () => {
+	
 	class App {
-		
+
+		localStorageName = 'cerApp'
 		stateController = new StateController();
-		localStorageController = new LocalStorageController();
+		localStorageController = new LocalStorageController(this.localStorageName);
+
 		rootBlock = document.querySelector('#root-app');
 		buttonAdd = this.rootBlock.getElementsByClassName('btn-add')[0];
 		contentView =  this.rootBlock.getElementsByClassName('content-view')[0];

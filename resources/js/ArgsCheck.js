@@ -9,7 +9,7 @@ class ArgsCheck {
 	}
 
 	isHtmlCollection (collection) {
-		if (typeof collection === 'object' && collection.length ==! undefined && collection.length !== 0) {
+		if (typeof collection === 'object' && collection.length !== undefined && collection.length !== 0) {
 			return true;
 		} else {
 			return false;
