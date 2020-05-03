@@ -7,7 +7,7 @@ window.addEventListener('load', () => {
 
 		start () {
 			console.log(this.stateController.getStateContentView(),
-			this.stateController.getStateButtonAdd(), this.stateController.getStateCerList())
+			this.stateController.getStateButtonAdd(), this.stateController.getStateCerList(), this.stateController.getStateForAllCerItem(document.querySelectorAll('.cer-list .item')))
 			
 		}
 
@@ -15,6 +15,7 @@ window.addEventListener('load', () => {
 			this.stateController.setStateButtonAdd('active');
 			this.stateController.setStateContentView('empty');
 			this.stateController.setStateCerList('active');
+			this.stateController.setStateForAllCerItem('not-active', document.querySelectorAll('.cer-list .item'));
 		}
 	}
 

@@ -19,6 +19,65 @@ class StateController {
 		}
 	}
 
+	getStateForAllCerItem (elements) {
+		if(typeof elements !== 'object'|| elements === undefined || elements.length === undefined || elements.length == 0) {
+			throw new Error ('HTML collection was not transferred.');
+		} 
+
+		const resultArray = [];
+
+		for(const element of elements) {
+			resultArray.push({element: element, state: this.getState(element)})
+		}
+
+		return resultArray;
+
+	}
+
+	setStateForAllCerItem (state, elements) {
+		if(typeof elements !== 'object'|| elements === undefined || elements.length === undefined || elements.length == 0) {
+			throw new Error ('HTML collection was not transferred.');
+		} 
+
+		for(const element of elements) {
+			this.setStateCerItem(state, element)
+		}
+	}
+
+	getStateCerItem (element) {
+		if(typeof element !== 'object'|| element === undefined) {
+			throw new Error ('The HTML element was not passed to the controller to individually change the state of the element.');
+		} 
+
+		return this.getState(element);
+	}
+
+	setStateCerItem (state, element) {
+		
+		if(typeof element !== 'object'|| element === undefined) {
+			throw new Error ('The HTML element was not passed to the controller to individually change the state of the element.');
+		} 
+
+		element.className = element.classList[0];
+
+		switch(state) {
+			case 'disable': 
+				break;
+
+			case 'active': 
+				element.classList.add(state);
+				break;
+
+			case 'not-active': 
+				element.classList.add(state);
+				break;
+
+			default:
+				throw new Error (`State ${state} does not exist.`);
+		}
+		
+	}
+
 	getStateCerList () {
 		const element = document.querySelector('#root-app .cer-list');
 		return this.getState(element);
