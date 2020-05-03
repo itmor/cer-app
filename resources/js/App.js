@@ -7,13 +7,14 @@ window.addEventListener('load', () => {
 
 		start () {
 			console.log(this.stateController.getStateContentView(),
-			this.stateController.getStateButtonAdd())
+			this.stateController.getStateButtonAdd(), this.stateController.getStateCerList())
 			
 		}
 
 		initState() {
 			this.stateController.setStateButtonAdd('active');
 			this.stateController.setStateContentView('empty');
+			this.stateController.setStateCerList('active');
 		}
 	}
 

@@ -19,6 +19,28 @@ class StateController {
 		}
 	}
 
+	getStateCerList () {
+		const element = document.querySelector('#root-app .cer-list');
+		return this.getState(element);
+	}
+
+	setStateCerList (state) {
+		const element = document.querySelector('#root-app .cer-list');
+		element.className = element.classList[0];
+
+		switch(state) {
+			case 'disable': 
+				break;
+
+			case 'active': 
+				element.classList.add(state);
+				break;
+
+			default:
+				throw new Error (`State ${state} does not exist.`);
+		}
+	}
+
 
 	getStateContentView () {
 		const element = document.querySelector('#root-app .content-view');
