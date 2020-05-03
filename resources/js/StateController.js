@@ -21,7 +21,7 @@ class StateController {
 
 	getStateForAll (collection) {
 		if(!argCheck.isHtmlCollection(collection)) {
-			throw new Error ('HTML collection was not transferred or it is empty');
+			throw new Error('HTML collection was not transferred or it is empty');
 		} 
 
 		const resultArray = [];
@@ -35,7 +35,7 @@ class StateController {
 
 	setStateForAllCerItem (state, collection) {
 		if(!argCheck.isHtmlCollection(collection)) {
-			throw new Error ('HTML collection was not transferred or it is empty');
+			throw new Error('HTML collection was not transferred or it is empty');
 		} 
 
 		for(const element of collection) {
@@ -45,7 +45,7 @@ class StateController {
 
 	setStateCerItem (state, element) {
 		if(!argCheck.isHtmlElement(element)) {
-			throw new Error ('HTML element was not passed.');
+			throw new Error('HTML element was not passed.');
 		} 
 
 		element.className = element.classList[0];
@@ -63,14 +63,14 @@ class StateController {
 				break;
 
 			default:
-				throw new Error (`State ${state} does not exist.`);
+				throw new Error(`State ${state} does not exist.`);
 		}
 		
 	}
 
 	setStateCerList (state, element) {
 		if(!argCheck.isHtmlElement(element)) {
-			throw new Error ('HTML element was not passed.');
+			throw new Error('HTML element was not passed.');
 		} 
 
 		element.className = element.classList[0];
@@ -84,13 +84,13 @@ class StateController {
 				break;
 
 			default:
-				throw new Error (`State ${state} does not exist.`);
+				throw new Error(`State ${state} does not exist.`);
 		}
 	}
 	
 	setStateContentView (state, element) {
 		if(!argCheck.isHtmlElement(element)) {
-			throw new Error ('HTML element was not passed.');
+			throw new Error('HTML element was not passed.');
 		} 
 		
 		element.className = element.classList[0];
@@ -117,13 +117,13 @@ class StateController {
 				break;
 
 			default:
-				throw new Error (`State ${state} does not exist.`);
+				throw new Error(`State ${state} does not exist.`);
 		}
 	}
 
 	setStateButtonAdd (state, element) {
 		if(!argCheck.isHtmlElement(element)) {
-			throw new Error ('HTML element was not passed.');
+			throw new Error('HTML element was not passed.');
 		} 
 
 		element.className = element.classList[0];
@@ -146,7 +146,7 @@ class StateController {
 				break;
 
 			default:
-				throw new Error (`State ${state} does not exist.`);
+				throw new Error(`State ${state} does not exist.`);
 		}
 	}
 }

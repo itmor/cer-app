@@ -1,10 +1,12 @@
 import {StateController} from './StateController.js';
+import {LocalStorageController} from './LocalStorageController.js';
 import '../scss/main.scss';
 
 window.addEventListener('load', () => {
 	class App {
 		
 		stateController = new StateController();
+		localStorageController = new LocalStorageController();
 		rootBlock = document.querySelector('#root-app');
 		buttonAdd = this.rootBlock.getElementsByClassName('btn-add')[0];
 		contentView =  this.rootBlock.getElementsByClassName('content-view')[0];

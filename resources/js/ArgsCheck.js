@@ -1,18 +1,18 @@
 class ArgsCheck {
 
     isHtmlElement (element) {
-		if (typeof element !== 'object'|| element === undefined ||  element === null) {
-			return false;
-		} else {
+		if (typeof element === 'object' && element !== null) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
 	isHtmlCollection (collection) {
-		if (typeof collection !== 'object'|| collection === undefined || collection.length === undefined || collection.length == 0) {
-			return false;
-		} else {
+		if (typeof collection === 'object' && collection.length ==! undefined && collection.length !== 0) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 }
