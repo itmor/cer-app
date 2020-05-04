@@ -66,7 +66,7 @@ class LocalStorageController {
 			throw new Error(`Unable to get data "${this.storageName}" storage has been deleted or not yet created.`);
 		} else {
 			if (typeof data === 'object' &&
-				typeof data.id === 'number' &&
+				typeof data.id === 'string' &&
 				typeof data.name === 'string' &&
 				typeof data.content === 'string') {
 
@@ -82,7 +82,7 @@ class LocalStorageController {
 				const localStorageString = JSON.stringify(localStorageArray);
 				localStorage[this.storageName] = localStorageString;
 			} else {
-				throw new Error('Error adding item to local storage, invalid input')
+				throw new Error('Error adding item to local storage, invalid input');
 			}
 		}
 	}

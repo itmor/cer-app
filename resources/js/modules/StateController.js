@@ -1,4 +1,4 @@
-import {ArgsCheck} from './ArgsCheck.js';
+import {ArgsCheck} from '../modules/ArgsCheck';
 const argCheck = new ArgsCheck();
 
 class StateController {

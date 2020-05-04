@@ -1,10 +1,12 @@
-import {StateController} from './StateController.js';
-import {LocalStorageController} from './LocalStorageController.js';
+import {StateController} from './modules/StateController';
+import {Render} from './modules/Render';
+import {LocalStorageController} from './modules/LocalStorageController';
 import '../scss/main.scss';
 
 window.addEventListener('load', () => {
 	class App {
 		localStorageName = 'cerApp'
+		render = new Render();
 		stateController = new StateController();
 		localStorageController = new LocalStorageController(this.localStorageName);
 
@@ -32,15 +34,6 @@ window.addEventListener('load', () => {
 
 			if (!this.localStorageController.isExist()) {
 				this.localStorageController.create();
-			} else {
-				this.localStorageController.addItem({
-					id: 1212,
-					name: "SADSA",
-					content: '1212'
-				});
-				
-				var s = this.localStorageController.getData();
-				console.log(s)
 			}
 		}
 
@@ -48,11 +41,24 @@ window.addEventListener('load', () => {
 			this.stateController.setStateButtonAdd('active', this.buttonAdd);
 			this.stateController.setStateContentView('empty', this.contentView);
 			this.stateController.setStateCerList('active', this.cerList);
-			this.stateController.setStateForAllCerItem('not-active', this.cerListItems);
 		}
 
 		initApp () {
 			this.addInitListeners();
+			this.getItemsInLocalStorage();
+		}
+
+		getItemsInLocalStorage () {
+			const localStorageArray = this.localStorageController.getData();
+
+			if (localStorageArray.length !== 0) {
+				for (const dataItem of localStorageArray) {
+		
+					this.render.showCerItem(dataItem, this.cerList, (renderedElement) => {
+						this.stateController.setStateCerItem('not-active', renderedElement);
+					});
+				}
+			}
 		}
 
 		addInitListeners () {
@@ -78,6 +84,17 @@ window.addEventListener('load', () => {
 		contentViewDropHandler (event) {
 			event.preventDefault()
 			const file = event.dataTransfer.files;
+			const data = {
+				id: Math.random().toString(36).substr(2, 5),
+				name: "SADSA",
+				content: '1212'
+			}
+
+			this.localStorageController.addItem(data);
+
+			this.render.showCerItem(data, this.cerList, (renderedElement) => {
+				this.stateController.setStateCerItem('not-active', renderedElement);
+			});
 		}
 	
 		contentViewDragoverHandler (event) {
