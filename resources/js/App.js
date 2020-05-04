@@ -28,6 +28,10 @@ window.addEventListener('load', () => {
 			}
 		}
 
+		appState = {
+			fileDropMode: false
+		}
+
 		start () {
 			this.initDefaultState();
 			this.initApp();
