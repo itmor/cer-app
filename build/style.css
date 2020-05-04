@@ -88,6 +88,10 @@ a {
           visibility: visible; }
       .wrap #root-app .left .cer-list.active {
         visibility: visible; }
+        .wrap #root-app .left .cer-list.active .item {
+          cursor: pointer; }
+      .wrap #root-app .left .cer-list.not-active {
+        visibility: visible; }
       .wrap #root-app .left .btn-add {
         background-color: #E6E6E6;
         border: 1px solid black;

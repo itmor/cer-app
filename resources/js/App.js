@@ -18,13 +18,16 @@ window.addEventListener('load', () => {
 
 		handlerStorage = {
 			buttonAdd: {
-				handleEvent: this.buttonAddHandler.bind(this)
+				handleEvent: this.buttonAddClickHandler.bind(this)
 			},
 			contentViewDrop: {
 				handleEvent: this.contentViewDropHandler.bind(this)
 			},
 			contentViewDragover: {
 				handleEvent: this.contentViewDragoverHandler.bind(this)
+			},
+			cerItem : {
+				handleEvent: this.cerItemClickHandler.bind(this)
 			}
 		}
 
@@ -60,6 +63,7 @@ window.addEventListener('load', () => {
 		
 					this.render.showCerItem(dataItem, this.cerList, (renderedElement) => {
 						this.stateController.setStateCerItem('not-active', renderedElement);
+						renderedElement.addEventListener('click', this.handlerStorage.cerItem);
 					});
 				}
 			}
@@ -69,8 +73,10 @@ window.addEventListener('load', () => {
 			this.buttonAdd.addEventListener('click', this.handlerStorage.buttonAdd);
 		}
 
-		buttonAddHandler () {
+		buttonAddClickHandler () {
 			if (this.stateController.getState(this.buttonAdd) === 'active') {
+				this.appState.fileDropMode = true;
+				this.stateController.setStateCerList('not-active', this.cerList);
 				this.stateController.setStateButtonAdd('not-active', this.buttonAdd);
 				this.stateController.setStateContentView('drop', this.contentView);
 
@@ -78,10 +84,26 @@ window.addEventListener('load', () => {
 				this.contentView.addEventListener('drop', this.handlerStorage.contentViewDrop, false);
 	
 			} else if (this.stateController.getState(this.buttonAdd) === 'not-active') {
+				this.appState.fileDropMode = false;
+				this.stateController.setStateCerList('active', this.cerList);
 				this.stateController.setStateButtonAdd('active', this.buttonAdd);
 				this.stateController.setStateContentView('empty', this.contentView);
+
 				this.contentView.removeEventListener('dragover', this.handlerStorage.contentViewDragover, false);
 				this.contentView.removeEventListener('drop', this.handlerStorage.contentViewDrop, false);
+			}
+		}
+
+		cerItemClickHandler (event) {
+			if (this.appState.fileDropMode === false && this.stateController.getState(event.currentTarget) !== 'active') {
+				console.log(event.currentTarget);
+
+				this.stateController.setStateForAllCerItem('not-active', this.cerListItems);
+				this.stateController.setStateCerItem('active', event.currentTarget);
+
+				this.stateController.setStateContentView('filled', this.contentView);
+				const dataItem = this.localStorageController.getItem(event.currentTarget.getAttribute('data-id'));
+				this.render.showContentView(dataItem.content, this.contentView);
 			}
 		}
 

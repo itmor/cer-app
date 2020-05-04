@@ -58,6 +58,14 @@
 
             .cer-list.active {
                 visibility: visible;
+
+                .item {
+                    cursor: pointer;
+                }
+            }
+
+            .cer-list.not-active {
+                visibility: visible;
             }
 
             .btn-add {

@@ -24,7 +24,7 @@ class Render {
     }
     
     showContentView (data, renderTo, callBack) {
-        if(argsCheck.isHtmlElement(element) && typeof data === 'string') {
+        if(argsCheck.isHtmlElement(renderTo) && typeof data === 'string') {
             renderTo.innerText = data;
         } else {
             throw new Error('Error render to local storage, invalid input data');

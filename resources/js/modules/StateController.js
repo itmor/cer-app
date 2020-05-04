@@ -82,6 +82,10 @@ class StateController {
 			case 'active': 
 				element.classList.add(state);
 				break;
+			
+			case 'not-active': 
+				element.classList.add(state);
+				break;
 
 			default:
 				throw new Error(`State ${state} does not exist.`);
