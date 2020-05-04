@@ -120,6 +120,7 @@ window.addEventListener('load', () => {
 
 			this.render.showCerItem(data, this.cerList, (renderedElement) => {
 				this.stateController.setStateCerItem('not-active', renderedElement);
+				renderedElement.addEventListener('click', this.handlerStorage.cerItem);
 			});
 		}
 	
