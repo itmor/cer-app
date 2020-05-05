@@ -18,7 +18,7 @@ class LocalStorageController {
 
 	create () {
 		if (this.isExist()) {
-			throw new Error(`${this.storageName} already exists, first delete`)
+			throw new Error(`${this.storageName} already exists, first delete`);
 		} else {
 			localStorage[this.storageName] = '[]';
 		}
@@ -27,7 +27,7 @@ class LocalStorageController {
 
 	remove () {
 		if (!this.isExist()) {
-			throw new Error(`${this.storageName} it was deleted before the call.`)
+			throw new Error(`${this.storageName} it was deleted before the call.`);
 		} else {
 			localStorage.removeItem(this.storageName);
 		}

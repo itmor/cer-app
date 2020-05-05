@@ -1,6 +1,7 @@
 import {StateController} from './modules/StateController';
 import {Render} from './modules/Render';
 import {LocalStorageController} from './modules/LocalStorageController';
+import {Decoder} from './modules/Decoder';
 import '../scss/main.scss';
 
 window.addEventListener('load', () => {
@@ -11,6 +12,9 @@ window.addEventListener('load', () => {
 		localStorageController = new LocalStorageController(this.localStorageName);
 
 		rootBlock = document.querySelector('#root-app');
+		errorView = this.rootBlock.getElementsByClassName('error-view')[0];
+		hiddenView = this.rootBlock.getElementsByClassName('hidden-view')[0];
+		decoder = new Decoder(this.errorView, this.hiddenView);
 		buttonAdd = this.rootBlock.getElementsByClassName('btn-add')[0];
 		contentView =  this.rootBlock.getElementsByClassName('content-view')[0];
 		cerList =  this.rootBlock.getElementsByClassName('cer-list')[0];
@@ -32,16 +36,18 @@ window.addEventListener('load', () => {
 		}
 
 		appState = {
-			fileDropMode: false
+			fileDropMode: false,
+			emptyProject: null
 		}
 
 		start () {
-			this.initDefaultState();
-			this.initApp();
-
 			if (!this.localStorageController.isExist()) {
 				this.localStorageController.create();
 			}
+
+			this.initDefaultState();
+			this.initApp();
+
 		}
 
 		initDefaultState () {
@@ -59,6 +65,8 @@ window.addEventListener('load', () => {
 			const localStorageArray = this.localStorageController.getData();
 
 			if (localStorageArray.length !== 0) {
+				this.appState.emptyProject = false;
+
 				for (const dataItem of localStorageArray) {
 		
 					this.render.showCerItem(dataItem, this.cerList, (renderedElement) => {
@@ -66,6 +74,9 @@ window.addEventListener('load', () => {
 						renderedElement.addEventListener('click', this.handlerStorage.cerItem);
 					});
 				}
+			} else {
+				this.appState.emptyProject = true;
+				this.buttonAdd.click();
 			}
 		}
 
@@ -75,28 +86,34 @@ window.addEventListener('load', () => {
 
 		buttonAddClickHandler () {
 			if (this.stateController.getState(this.buttonAdd) === 'active') {
-				this.appState.fileDropMode = true;
-				this.stateController.setStateCerList('not-active', this.cerList);
+			
+				if (this.appState.emptyProject === true) {
+					this.stateController.setStateCerList('disable', this.cerList);
+				} else {
+					this.stateController.setStateCerList('not-active', this.cerList);
+				}
+
+				this.appState.fileDropMode = true;	
 				this.stateController.setStateButtonAdd('not-active', this.buttonAdd);
 				this.stateController.setStateContentView('drop', this.contentView);
-
 				this.contentView.addEventListener('dragover', this.handlerStorage.contentViewDragover, false);
 				this.contentView.addEventListener('drop', this.handlerStorage.contentViewDrop, false);
 	
 			} else if (this.stateController.getState(this.buttonAdd) === 'not-active') {
-				this.appState.fileDropMode = false;
-				this.stateController.setStateCerList('active', this.cerList);
-				this.stateController.setStateButtonAdd('active', this.buttonAdd);
-				this.stateController.setStateContentView('empty', this.contentView);
-
-				this.contentView.removeEventListener('dragover', this.handlerStorage.contentViewDragover, false);
-				this.contentView.removeEventListener('drop', this.handlerStorage.contentViewDrop, false);
+				
+				if (this.appState.emptyProject === false) {
+					this.stateController.setStateCerList('active', this.cerList);
+					this.appState.fileDropMode = false;
+					this.stateController.setStateButtonAdd('active', this.buttonAdd);
+					this.stateController.setStateContentView('empty', this.contentView);
+					this.contentView.removeEventListener('dragover', this.handlerStorage.contentViewDragover, false);
+					this.contentView.removeEventListener('drop', this.handlerStorage.contentViewDrop, false);
+				}
 			}
 		}
 
 		cerItemClickHandler (event) {
 			if (this.appState.fileDropMode === false && this.stateController.getState(event.currentTarget) !== 'active') {
-				console.log(event.currentTarget);
 
 				this.stateController.setStateForAllCerItem('not-active', this.cerListItems);
 				this.stateController.setStateCerItem('active', event.currentTarget);
@@ -109,12 +126,35 @@ window.addEventListener('load', () => {
 
 		contentViewDropHandler (event) {
 			event.preventDefault()
+			this.appState.emptyProject = false;
+			this.stateController.setStateCerList('active', this.cerList);
+
 			const file = event.dataTransfer.files;
 			const data = {
 				id: Math.random().toString(36).substr(2, 5),
 				name: "SADSA",
 				content: '1212'
 			}
+			// let reader = new FileReader();
+
+			// reader.readAsArrayBuffer(event.dataTransfer.files[0]);
+
+		    // reader.onload = function() {
+
+			// 	function ArrayBuffertohex(buffer) {
+			// 		var hex = "";
+			// 		var view = new DataView(buffer);
+				
+			// 		for (var i = 0; i < buffer.byteLength; i++) {
+			// 		hex += ("00" + view.getUint8(i).toString(16)).slice(-2);
+			// 		}
+				
+			// 		return hex;
+			// 	}
+
+	
+
+			read(event.dataTransfer.files[0]);
 
 			this.localStorageController.addItem(data);
 

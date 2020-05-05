@@ -85,6 +85,15 @@
 
         .right {
             display: flex;
+            flex-direction: column;
+
+            .error-view {
+                font: 400 0.875rem $font-primary;
+                color: red;
+                margin-top: 6px;
+                padding: 5px;
+                text-align: center; 
+            }
 
             .content-view {
                 height: 199px;

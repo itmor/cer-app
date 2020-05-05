@@ -103,7 +103,14 @@ a {
       .wrap #root-app .left .btn-add.active, .wrap #root-app .left .btn-add.not-active {
         visibility: visible; }
     .wrap #root-app .right {
-      display: flex; }
+      display: flex;
+      flex-direction: column; }
+      .wrap #root-app .right .error-view {
+        font: 400 0.875rem Helvetica, Arial, sans-serif;
+        color: red;
+        margin-top: 6px;
+        padding: 5px;
+        text-align: center; }
       .wrap #root-app .right .content-view {
         height: 199px;
         width: 274px;

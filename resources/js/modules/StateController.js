@@ -76,7 +76,8 @@ class StateController {
 		element.className = element.classList[0];
 
 		switch(state) {
-			case 'disable': 
+			case 'disable':
+				element.classList.add(state); 
 				break;
 
 			case 'active': 
