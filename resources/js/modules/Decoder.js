@@ -18,12 +18,30 @@ class Decoder {
     parseString (callBack) {
         let result = this.hiddenView.textContent;
         this.hiddenView.innerHTML = '';
-        // result = result.replace(/SEQUENCE/g, '');
-        // result = result.replace(/Offset:/g, '');
-        // result = result.replace(/SET/g, '');
-        // result = result.replace(/Value:/g, '');
-        callBack(result);
+        this.parseData(result, callBack);
         
+    }
+
+    parseData (data, callBack) {
+        const organizationCenterCommonName = data.match(/commonName.*?UTF8String\s+(.*?)\s(\s\s)/)[1];
+        data = data.replace(/commonName.*?UTF8String\s+(.*?)\s(\s\s)/, '');
+
+        const subjectCommonName = data.match(/commonName.*?UTF8String\s+(.*?)\s(\s\s)/)[1];
+        const validFrom = data.match(/UTCTime\s(.*?)(.*?)\sUTC/)[2];
+        
+        data = data.replace(/UTCTime\s(.*?)(.*?)\sUTC/, '');
+        const validTill = data.match(/UTCTime\s(.*?)(.*?)\sUTC/)[2];
+        
+
+        callBack({
+            id: Math.random().toString(36).substr(2, 5),
+            name: subjectCommonName,
+            content: `Common Name: ${subjectCommonName}
+                      Issuer CN: ${organizationCenterCommonName}
+                      Valid from: ${validFrom.split(' ')[0]}
+                      Valid till: ${validTill.split(' ')[0]}`
+                      
+        });
     }
 
     decode (der, callBack) {
@@ -31,7 +49,12 @@ class Decoder {
 
         try {
             const asn1 = ASN1.decode(der);
-
+            if (asn1.typeName() != 'SEQUENCE') {
+                const errorText = 'Неверная структура конверта сертификата (ожидается SEQUENCE)';
+                this.showError(errorText);
+                throw new Error(errorText);
+            }
+            
             setTimeout(() => {
                 this.hiddenView.appendChild(asn1.toDOM());
             }, 0);
@@ -42,6 +65,7 @@ class Decoder {
 
         } catch (e) {
             this.showError(e);
+            throw new Error(e);
         }
     }
     
@@ -57,7 +81,8 @@ class Decoder {
                 this.decode(der, callBack);
             }
         } catch (e) {
-            this.showError('Cannot decode file.');
+            this.showError(e);
+            throw new Error(e);
         }
     }
 

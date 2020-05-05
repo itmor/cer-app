@@ -93,7 +93,7 @@ window.addEventListener('load', () => {
 					this.stateController.setStateCerList('not-active', this.cerList);
 					this.stateController.setStateForAllCerItem('not-active', this.cerListItems);
 				}
-				
+
 				this.appState.fileDropMode = true;	
 				this.stateController.setStateButtonAdd('not-active', this.buttonAdd);
 				this.stateController.setStateContentView('drop', this.contentView);
@@ -103,7 +103,7 @@ window.addEventListener('load', () => {
 			} else if (this.stateController.getState(this.buttonAdd) === 'not-active') {
 				
 				if (this.appState.emptyProject === false) {
-					
+					this.errorView.innerText = '';
 					this.stateController.setStateCerList('active', this.cerList);
 					this.appState.fileDropMode = false;
 					this.stateController.setStateButtonAdd('active', this.buttonAdd);
@@ -128,25 +128,17 @@ window.addEventListener('load', () => {
 
 		contentViewDropHandler (event) {
 			event.preventDefault()
-			this.appState.emptyProject = false;
-			this.stateController.setStateCerList('not-active', this.cerList);
-
 			const file = event.dataTransfer.files[0];
-			const data = {
-				id: Math.random().toString(36).substr(2, 5),
-				name: "SADSA",
-				content: '1212'
-			}
 
-			this.decoder.read(file, (string) => {
-				console.log(string)
-			});
-
-			this.localStorageController.addItem(data);
-
-			this.render.showCerItem(data, this.cerList, (renderedElement) => {
-				this.stateController.setStateCerItem('not-active', renderedElement);
-				renderedElement.addEventListener('click', this.handlerStorage.cerItem);
+			this.decoder.read(file, (data) => {
+				this.localStorageController.addItem(data);
+				this.render.showCerItem(data, this.cerList, (renderedElement) => {
+					this.appState.emptyProject = false;
+					this.stateController.setStateCerList('not-active', this.cerList);
+					this.errorView.innerText = '';
+					this.stateController.setStateCerItem('not-active', renderedElement);
+					renderedElement.addEventListener('click', this.handlerStorage.cerItem);
+				});
 			});
 		}
 	

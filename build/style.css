@@ -120,6 +120,8 @@ a {
       display: flex;
       flex-direction: column; }
       .wrap #root-app .right .error-view {
+        display: block;
+        width: 292px;
         font: 400 0.875rem Helvetica, Arial, sans-serif;
         color: red;
         margin-top: 6px;

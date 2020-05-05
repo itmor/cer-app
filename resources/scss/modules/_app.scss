@@ -106,6 +106,8 @@
             flex-direction: column;
 
             .error-view {
+                display: block;
+                width: 292px;
                 font: 400 0.875rem $font-primary;
                 color: red;
                 margin-top: 6px;
