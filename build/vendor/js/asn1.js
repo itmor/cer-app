@@ -319,7 +319,7 @@ ASN1.prototype.content = function (maxLength) { // a preview of the content (int
         len = Math.abs(this.length);
     if (!this.tag.isUniversal()) {
         if (this.sub !== null)
-            return "(" + this.sub.length + " elem)";
+            return "";
         return this.stream.parseOctetString(content, content + len, maxLength);
     }
     switch (this.tag.tagNumber) {
@@ -328,11 +328,9 @@ ASN1.prototype.content = function (maxLength) { // a preview of the content (int
     case 0x02: // INTEGER
         return this.stream.parseInteger(content, content + len);
     case 0x03: // BIT_STRING
-        return this.sub ? "(" + this.sub.length + " elem)" :
-            this.stream.parseBitString(content, content + len, maxLength);
+        return this.stream.parseBitString(content, content + len, maxLength);
     case 0x04: // OCTET_STRING
-        return this.sub ? "(" + this.sub.length + " elem)" :
-            this.stream.parseOctetString(content, content + len, maxLength);
+        return this.stream.parseOctetString(content, content + len, maxLength);
     //case 0x05: // NULL
     case 0x06: // OBJECT_IDENTIFIER
         return this.stream.parseOID(content, content + len, maxLength);
@@ -344,9 +342,9 @@ ASN1.prototype.content = function (maxLength) { // a preview of the content (int
     case 0x10: // SEQUENCE
     case 0x11: // SET
         if (this.sub !== null)
-            return "(" + this.sub.length + " elem)";
+            return "";
         else
-            return "(no elem)";
+            return "";
     case 0x0C: // UTF8String
         return stringCut(this.stream.parseStringUTF(content, content + len), maxLength);
     case 0x12: // NumericString

@@ -91,8 +91,9 @@ window.addEventListener('load', () => {
 					this.stateController.setStateCerList('disable', this.cerList);
 				} else {
 					this.stateController.setStateCerList('not-active', this.cerList);
+					this.stateController.setStateForAllCerItem('not-active', this.cerListItems);
 				}
-
+				
 				this.appState.fileDropMode = true;	
 				this.stateController.setStateButtonAdd('not-active', this.buttonAdd);
 				this.stateController.setStateContentView('drop', this.contentView);
@@ -102,6 +103,7 @@ window.addEventListener('load', () => {
 			} else if (this.stateController.getState(this.buttonAdd) === 'not-active') {
 				
 				if (this.appState.emptyProject === false) {
+					
 					this.stateController.setStateCerList('active', this.cerList);
 					this.appState.fileDropMode = false;
 					this.stateController.setStateButtonAdd('active', this.buttonAdd);
@@ -127,34 +129,18 @@ window.addEventListener('load', () => {
 		contentViewDropHandler (event) {
 			event.preventDefault()
 			this.appState.emptyProject = false;
-			this.stateController.setStateCerList('active', this.cerList);
+			this.stateController.setStateCerList('not-active', this.cerList);
 
-			const file = event.dataTransfer.files;
+			const file = event.dataTransfer.files[0];
 			const data = {
 				id: Math.random().toString(36).substr(2, 5),
 				name: "SADSA",
 				content: '1212'
 			}
-			// let reader = new FileReader();
 
-			// reader.readAsArrayBuffer(event.dataTransfer.files[0]);
-
-		    // reader.onload = function() {
-
-			// 	function ArrayBuffertohex(buffer) {
-			// 		var hex = "";
-			// 		var view = new DataView(buffer);
-				
-			// 		for (var i = 0; i < buffer.byteLength; i++) {
-			// 		hex += ("00" + view.getUint8(i).toString(16)).slice(-2);
-			// 		}
-				
-			// 		return hex;
-			// 	}
-
-	
-
-			read(event.dataTransfer.files[0]);
+			this.decoder.read(file, (string) => {
+				console.log(string)
+			});
 
 			this.localStorageController.addItem(data);
 

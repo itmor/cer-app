@@ -15,27 +15,37 @@ class Decoder {
         this.errorView.innerText = string;
     }
 
-    decode (der) {
+    parseString (callBack) {
+        let result = this.hiddenView.textContent;
+        this.hiddenView.innerHTML = '';
+        // result = result.replace(/SEQUENCE/g, '');
+        // result = result.replace(/Offset:/g, '');
+        // result = result.replace(/SET/g, '');
+        // result = result.replace(/Value:/g, '');
+        callBack(result);
+        
+    }
+
+    decode (der, callBack) {
         this.errorView.innerText = '';
 
         try {
             const asn1 = ASN1.decode(der);
-            //asn1.toDom()
-        } catch (e) {
-            showError(e);
-        }
-    }
 
-    decodeText (val) {
-        try {
-            const der = this.reHex.test(val) ? Hex.decode(val) : Base64.unarmor(val);
-            decode(der);
+            setTimeout(() => {
+                this.hiddenView.appendChild(asn1.toDOM());
+            }, 0);
+
+            setTimeout(() => {
+                this.parseString(callBack);
+            }, 0);
+
         } catch (e) {
-            showError(e);
+            this.showError(e);
         }
     }
     
-    decodeBinaryString (str) {
+    decodeBinaryString (str, callBack) {
         let der;
         try {
             if (this.reHex.test(str)) {
@@ -44,22 +54,23 @@ class Decoder {
                 der = Base64.unarmor(str);
             }  else{
                 der = str;
-                decode(der);
+                this.decode(der, callBack);
             }
         } catch (e) {
-            showError('Cannot decode file.');
+            this.showError('Cannot decode file.');
         }
     }
 
-    read (file) {
+    read (file, callBack) {
         const reader = new FileReader();
-        reader.onloadend = function () {
+        reader.onloadend = () => {
             if (reader.error) {
-                showError(`Your browser couldn't read the specified file (error code ${reader.error.code}).`);
+                this.showError(`Your browser couldn't read the specified file (error code ${reader.error.code}).`);
             } else {
-                decodeBinaryString(reader.result);
+                this.decodeBinaryString(reader.result, callBack);
             }  
-        };
+        }
+
         reader.readAsBinaryString(file);
     }   
 }
