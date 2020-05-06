@@ -141,9 +141,10 @@ window.addEventListener('load', () => {
           'not-active',
           this.cerListItems
         );
-        this.stateController.setStateCerItem('active', event.currentTarget);
 
+        this.stateController.setStateCerItem('active', event.currentTarget);
         this.stateController.setStateContentView('filled', this.contentView);
+
         const dataItem = this.localStorageController.getItem(
           event.currentTarget.getAttribute('data-id')
         );
