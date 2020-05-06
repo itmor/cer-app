@@ -32,7 +32,7 @@ npm install
 
 
 ### Class Description
-###### App
+##### App
 the main class in which the initialization is performed, the main code is written
 ###### StateController
 the class whose methods describe the state change of an html element, the word "state" means the html style of an element.
