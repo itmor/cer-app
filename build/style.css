@@ -114,7 +114,8 @@ a {
         border-radius: 6px;
         cursor: pointer;
         visibility: hidden; }
-      .wrap #root-app .left .btn-add.active, .wrap #root-app .left .btn-add.not-active {
+      .wrap #root-app .left .btn-add.active,
+      .wrap #root-app .left .btn-add.not-active {
         visibility: visible; }
     .wrap #root-app .right {
       display: flex;
@@ -135,12 +136,12 @@ a {
         visibility: hidden; }
       .wrap #root-app .right .content-view.empty {
         font: 400 0.875rem Helvetica, Arial, sans-serif;
-        color: #C0C0C0;
+        color: #c0c0c0;
         border: 1px solid black;
         visibility: visible; }
       .wrap #root-app .right .content-view.drop {
         font: 400 0.875rem Helvetica, Arial, sans-serif;
-        color: #C0C0C0;
+        color: #c0c0c0;
         border: 1px dashed black;
         visibility: visible; }
       .wrap #root-app .right .content-view.filled {

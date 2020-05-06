@@ -1,159 +1,159 @@
-import {ArgsCheck} from '../modules/ArgsCheck';
+/* eslint-disable prefer-destructuring */
+import { ArgsCheck } from './ArgsCheck';
+
 const argCheck = new ArgsCheck();
 
 class StateController {
+  getState(element) {
+    if (element.classList.length > 2) {
+      const stateArray = [];
 
-	getState (element) {
- 		if (element.classList.length > 2) {
-			const stateArray = [];
+      for (const classElement of element.classList) {
+        stateArray.push(classElement);
+      }
 
-			for(const i = 1; i < element.classList.length; i++) {
-				stateArray.push(element.classList[i]);
-			}
+      return stateArray;
+    }
+    if (element.classList.length === 1) {
+      return 'disable';
+    }
+    return element.classList[1];
+  }
 
-			return stateArray;
-		} else if (element.classList.length == 1) {
-			return 'disable';
-		} else {
-			return element.classList[1];
-		}
-	}
+  getStateForAll(collection) {
+    if (!argCheck.isHtmlCollection(collection)) {
+      throw new Error('HTML collection was not transferred or it is empty');
+    }
 
-	getStateForAll (collection) {
-		if(!argCheck.isHtmlCollection(collection)) {
-			throw new Error('HTML collection was not transferred or it is empty');
-		} 
+    const resultArray = [];
 
-		const resultArray = [];
+    for (const element of collection) {
+      resultArray.push({ element, state: this.getState(element) });
+    }
 
-		for(const element of collection) {
-			resultArray.push({element: element, state: this.getState(element)})
-		}
+    return resultArray;
+  }
 
-		return resultArray;
-	}
+  setStateForAllCerItem(state, collection) {
+    if (!argCheck.isHtmlCollection(collection)) {
+      throw new Error('HTML collection was not transferred or it is empty');
+    }
 
-	setStateForAllCerItem (state, collection) {
-		if(!argCheck.isHtmlCollection(collection)) {
-			throw new Error('HTML collection was not transferred or it is empty');
-		} 
+    for (const element of collection) {
+      this.setStateCerItem(state, element);
+    }
+  }
 
-		for(const element of collection) {
-			this.setStateCerItem(state, element)
-		}
-	}
+  setStateCerItem(state, element) {
+    if (!argCheck.isHtmlElement(element)) {
+      throw new Error('HTML element was not passed.');
+    }
 
-	setStateCerItem (state, element) {
-		if(!argCheck.isHtmlElement(element)) {
-			throw new Error('HTML element was not passed.');
-		} 
+    element.className = element.classList[0];
 
-		element.className = element.classList[0];
+    switch (state) {
+      case 'disable':
+        break;
 
-		switch(state) {
-			case 'disable': 
-				break;
+      case 'active':
+        element.classList.add(state);
+        break;
 
-			case 'active': 
-				element.classList.add(state);
-				break;
+      case 'not-active':
+        element.classList.add(state);
+        break;
 
-			case 'not-active': 
-				element.classList.add(state);
-				break;
+      default:
+        throw new Error(`State ${state} does not exist.`);
+    }
+  }
 
-			default:
-				throw new Error(`State ${state} does not exist.`);
-		}
-		
-	}
+  setStateCerList(state, element) {
+    if (!argCheck.isHtmlElement(element)) {
+      throw new Error('HTML element was not passed.');
+    }
 
-	setStateCerList (state, element) {
-		if(!argCheck.isHtmlElement(element)) {
-			throw new Error('HTML element was not passed.');
-		} 
+    element.className = element.classList[0];
 
-		element.className = element.classList[0];
+    switch (state) {
+      case 'disable':
+        element.classList.add(state);
+        break;
 
-		switch(state) {
-			case 'disable':
-				element.classList.add(state); 
-				break;
+      case 'active':
+        element.classList.add(state);
+        break;
 
-			case 'active': 
-				element.classList.add(state);
-				break;
-			
-			case 'not-active': 
-				element.classList.add(state);
-				break;
+      case 'not-active':
+        element.classList.add(state);
+        break;
 
-			default:
-				throw new Error(`State ${state} does not exist.`);
-		}
-	}
-	
-	setStateContentView (state, element) {
-		if(!argCheck.isHtmlElement(element)) {
-			throw new Error('HTML element was not passed.');
-		} 
-		
-		element.className = element.classList[0];
+      default:
+        throw new Error(`State ${state} does not exist.`);
+    }
+  }
 
-		const emptyStateText = 'Выберите сертификат для просмотра информации';
-		const dropStateText = 'Перетащите файл сертификата в это поле';
+  setStateContentView(state, element) {
+    if (!argCheck.isHtmlElement(element)) {
+      throw new Error('HTML element was not passed.');
+    }
 
-		switch(state) {
-			case 'disable': 
-				break;
+    element.className = element.classList[0];
 
-			case 'empty': 
-				element.classList.add(state);
-				element.innerText = emptyStateText;
-				break;
+    const emptyStateText = 'Выберите сертификат для просмотра информации';
+    const dropStateText = 'Перетащите файл сертификата в это поле';
 
-			case 'drop':
-				element.classList.add(state);
-				element.innerText = dropStateText;
-				break;
-				
-			case 'filled':
-				element.classList.add(state);
-				break;
+    switch (state) {
+      case 'disable':
+        break;
 
-			default:
-				throw new Error(`State ${state} does not exist.`);
-		}
-	}
+      case 'empty':
+        element.classList.add(state);
+        element.innerText = emptyStateText;
+        break;
 
-	setStateButtonAdd (state, element) {
-		if(!argCheck.isHtmlElement(element)) {
-			throw new Error('HTML element was not passed.');
-		} 
+      case 'drop':
+        element.classList.add(state);
+        element.innerText = dropStateText;
+        break;
 
-		element.className = element.classList[0];
+      case 'filled':
+        element.classList.add(state);
+        break;
 
-		const activeStateText = 'Добавить';
-		const notActiveStateText = 'Отменить';
+      default:
+        throw new Error(`State ${state} does not exist.`);
+    }
+  }
 
-		switch(state) {
-			case 'disable': 
-				break;
+  setStateButtonAdd(state, element) {
+    if (!argCheck.isHtmlElement(element)) {
+      throw new Error('HTML element was not passed.');
+    }
 
-			case 'active': 
-				element.classList.add(state);
-				element.innerText = activeStateText;
-				break;
+    element.className = element.classList[0];
 
-			case 'not-active':
-				element.classList.add(state);
-				element.innerText = notActiveStateText;
-				break;
+    const activeStateText = 'Добавить';
+    const notActiveStateText = 'Отменить';
 
-			default:
-				throw new Error(`State ${state} does not exist.`);
-		}
-	}
+    switch (state) {
+      case 'disable':
+        break;
+
+      case 'active':
+        element.classList.add(state);
+        element.innerText = activeStateText;
+        break;
+
+      case 'not-active':
+        element.classList.add(state);
+        element.innerText = notActiveStateText;
+        break;
+
+      default:
+        throw new Error(`State ${state} does not exist.`);
+    }
+  }
 }
 
-export {StateController};
+export { StateController };
