@@ -29,8 +29,16 @@ cd cer-app
 ```
 npm install
 ```
+#### DEV
+put together a project in development
+```
+npm run dev
+```
 
-
+assemble a project in production
+```
+npm run build
+```
 ### Class Description
 
 #### App
